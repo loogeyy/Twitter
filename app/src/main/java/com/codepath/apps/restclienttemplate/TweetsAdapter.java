@@ -1,11 +1,13 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,20 +72,30 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         ImageView ivImage;
         TextView tvTimestamp;
+        Button btnRetweet;
+        TextView tvName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivProfileImage = itemView.findViewById((R.id.ivProfileImage));
             tvBody = itemView.findViewById(R.id.tvBody);
+            tvName = itemView.findViewById(R.id.tvName);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
+            btnRetweet = itemView.findViewById(R.id.btnTweet);
+            Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/HelveticaNeueLTPro-Roman.otf");
+            tvBody.setTypeface(font);
+            tvScreenName.setTypeface(font);
+            tvTimestamp.setTypeface(font);
+            tvName.setTypeface(font);
         }
 
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
+            tvScreenName.setText("@"+tweet.user.screenName + " ·");
             tvTimestamp.setText(getRelativeTimeAgo(tweet.createdAt));
+            tvName.setText(tweet.user.name);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             Glide.with(context).load(tweet.imageUrl).into(ivImage);
         }
@@ -110,11 +122,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             } else if (diff < 2 * MINUTE_MILLIS) {
                 return "a minute ago";
             } else if (diff < 50 * MINUTE_MILLIS) {
-                return diff / MINUTE_MILLIS + " m";
+                return diff / MINUTE_MILLIS + "m";
             } else if (diff < 90 * MINUTE_MILLIS) {
                 return "an hour ago";
             } else if (diff < 24 * HOUR_MILLIS) {
-                return diff / HOUR_MILLIS + " h";
+                return diff / HOUR_MILLIS + "h";
             } else if (diff < 48 * HOUR_MILLIS) {
                 return "yesterday";
             } else {

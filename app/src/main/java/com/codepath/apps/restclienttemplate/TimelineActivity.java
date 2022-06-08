@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -127,9 +128,13 @@ public class TimelineActivity extends AppCompatActivity {
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
         // Recycler view setup: layout manager and the adapter
-        rvTweets.setLayoutManager((new LinearLayoutManager(this)));
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(manager);
         rvTweets.setAdapter(adapter);
         populateHomeTimeline();
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvTweets.getContext(), manager.getOrientation());
+        rvTweets.addItemDecoration(dividerItemDecoration);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,6 +13,11 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="retweetBtn" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:background">@drawable/states_retweet_button</item>
+        <item name="android:clickable">true</item>
+    </style>
 
 <!-- <item name="android:focusable">true</item> -->
 </resources>
