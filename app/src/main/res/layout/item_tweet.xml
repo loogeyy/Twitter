@@ -24,6 +24,7 @@
 
     <TextView
         android:id="@+id/tvBody"
+        android:linksClickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvScreenName"
@@ -50,4 +51,15 @@
         android:layout_marginBottom="2dp"
         android:layout_toEndOf="@+id/tvScreenName"
         tools:text="8h" />
+
+    <Button
+        android:id="@+id/btnRetweet"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/states_retweet_button"/>
+
 </RelativeLayout>
