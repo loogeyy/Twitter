@@ -12,6 +12,7 @@ import java.util.List;
 public class Tweet {
     public String body;
     public String createdAt;
+    public String imageUrl;
     public User user;
 
     // empty constructor needed by the Parceler library
@@ -21,9 +22,16 @@ public class Tweet {
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.body = jsonObject.getString("text");
+        if (jsonObject.has("full_text")) {
+            tweet.body = jsonObject.getString("full_text");
+        } else {
+            tweet.body = jsonObject.getString("text");
+        }
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        if (jsonObject.getJSONObject("entities").has("media")) {
+            tweet.imageUrl = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https");
+        }
         return tweet;
     }
 
