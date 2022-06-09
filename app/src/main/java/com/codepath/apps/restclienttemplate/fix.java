@@ -18,14 +18,13 @@ import org.parceler.Parcels;
 
 import okhttp3.Headers;
 
-public class ComposeActivity extends AppCompatActivity {
+public class fix extends AppCompatActivity {
 
-    public static final String TAG = "ComposeActivity";
+    public static final String TAG = "ReplyActivity";
     public static final int MAX_TWEET_LENGTH = 140;
 
-    EditText etCompose;
-    Button btnTweet;
-    Button btnCancel;
+    EditText retweetInput;
+    Button btnSubmitReply;
 
     TwitterClient client;
 
@@ -35,43 +34,35 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
 
         client = TwitterApp.getRestClient(this);
-        etCompose = findViewById(R.id.retweetInput);
-        btnTweet = findViewById(R.id.btnSubmitTweet);
-        btnCancel = findViewById(R.id.btnCancel);
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ComposeActivity.this, TimelineActivity.class);
-                startActivity(intent);
-
-            }
-        });
+        retweetInput = findViewById(R.id.retweetInput);
+        btnSubmitReply = findViewById(R.id.btnSubmitReply);
 
         // Set click listener on button
-        btnTweet.setOnClickListener(new View.OnClickListener() {
+        /*
+        btnSubmitReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tweetContent = etCompose.getText().toString();
+                String tweetContent = retweetInput.getText().toString();
                 if (tweetContent.isEmpty()) {
-                    Toast.makeText(ComposeActivity.this, "Tweets cannot be empty.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Reply cannot be empty.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (tweetContent.length() > MAX_TWEET_LENGTH) {
-                    Toast.makeText(ComposeActivity.this, "Tweets cannot exceed 140 characters.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Reply cannot exceed 140 characters.", Toast.LENGTH_LONG).show();
                     return;
                 }
-                // Make an API call to Twitter to publish the tweet
-                client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
+
+                // Make an API call to Twitter to publish the reply
+                client.publishReply(tweetContent, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
-                        Log.i(TAG, "onSuccess to publish tweet");
+                        Log.i(TAG, "onSuccess to reply to tweet");
                         try {
                             Tweet tweet = Tweet.fromJson(json.jsonObject);
-                            Log.i(TAG, "Published tweet  says: " + tweet.body);
+                            Log.i(TAG, "Published reply says: " + tweet.body);
                             Intent intent = new Intent();
                             intent.putExtra("tweet", Parcels.wrap(tweet));
-                            setResult(RESULT_OK, intent); // set result code  and bundle data for response
+                            setResult(RESULT_OK, intent); // set result code and bundle data for response
                             finish(); // close current activity and returns/passes data to parent
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -80,12 +71,12 @@ public class ComposeActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                        Log.e(TAG, "onFailure to publish tweet", throwable);
+                        Log.e(TAG, "onFailure to publish reply", throwable);
                     }
                 });
             }
         });
-
+    */
 
     }
 }

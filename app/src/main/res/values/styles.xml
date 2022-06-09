@@ -10,6 +10,8 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="colorPrimaryDark">@color/twitter_blue</item>
+        <item name="colorPrimary">@color/twitter_blue</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 

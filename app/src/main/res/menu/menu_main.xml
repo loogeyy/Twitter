@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/bird"
+        android:icon="@drawable/twitter"
+        android:title="Compose"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/compose"
         android:icon="@drawable/vector_compose_fab"
         android:title="Compose"
@@ -15,4 +21,14 @@
         android:orderInCategory="100"
         app:showAsAction="always"
         app:actionLayout="@layout/action_view_progress" />
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        android:iconTint="#FFFFFF"
+        android:title="Compose"
+        app:showAsAction="always" />
+
+
+
 </menu>

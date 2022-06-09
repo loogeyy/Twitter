@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SimpleTweet</string>
+    <string name="app_name">Twitter</string>
     <string name="login_label">Log in</string>
     <string name="intent_scheme">oauth</string>
     <string name="intent_host">cprest</string>
     <string name="logout_btn">Log Out</string>
     <string name="tweet">Tweet</string>
     <string name="how_are_you_feeling">How are you feeling?</string>
+    <string name="what_s_happening">What\'s happening?</string>
+    <string name="reply">REPLY</string>
+    <string name="cancel">CANCEL</string>
+    <string name="add_another_tweet">Add another Tweet</string>
 
 </resources>

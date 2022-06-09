@@ -36,7 +36,6 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
-    Button logoutBtn;
     MenuItem miActionProgressItem;
 
     public static final String TAG = "TimelineActivity";
@@ -58,6 +57,12 @@ public class TimelineActivity extends AppCompatActivity {
             // Navigate to compose activity
             Intent intent = new Intent(this, ComposeActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
+            return true;
+        }
+
+        if (item.getItemId() == R.id.logout) {
+            finish();
+            onLogOutButton();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -123,7 +128,6 @@ public class TimelineActivity extends AppCompatActivity {
 
         // Find the recycler view
         rvTweets = findViewById(R.id.rvTweets);
-        logoutBtn = findViewById(R.id.logoutBtn);
         // Init the list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
@@ -136,13 +140,7 @@ public class TimelineActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvTweets.getContext(), manager.getOrientation());
         rvTweets.addItemDecoration(dividerItemDecoration);
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               finish();
-               onLogOutButton();
-            }
-       });
+
 }
     public void fetchTimelineAsync(int page){
         // Send the network request to fetch updated data
