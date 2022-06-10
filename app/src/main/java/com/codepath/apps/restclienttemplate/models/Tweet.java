@@ -14,6 +14,12 @@ public class Tweet {
     public String createdAt;
     public String imageUrl;
     public User user;
+    public String id;
+    public boolean retweeted;
+    public boolean liked;
+    public String screenName;
+
+    //public String
 
     // empty constructor needed by the Parceler library
     public Tweet() {
@@ -32,6 +38,10 @@ public class Tweet {
         if (jsonObject.getJSONObject("entities").has("media")) {
             tweet.imageUrl = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https");
         }
+        tweet.id = jsonObject.getString("id_str");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
+        tweet.liked = jsonObject.getBoolean("favorited");
+        tweet.screenName = jsonObject.getJSONObject("user").getString("screen_name");
         return tweet;
     }
 

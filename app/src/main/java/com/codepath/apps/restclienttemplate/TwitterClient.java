@@ -10,16 +10,16 @@ import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 
 /*
- * 
- * This is the object responsible for communicating with a REST API. 
+ *
+ * This is the object responsible for communicating with a REST API.
  * Specify the constants below to change the API being communicated with.
- * See a full list of supported API classes: 
+ * See a full list of supported API classes:
  *   https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/main/java/com/github/scribejava/apis
  * Key and Secret are provided by the developer site for the given API i.e dev.twitter.com
  * Add methods for each relevant endpoint in the API.
- * 
+ *
  * NOTE: You may want to rename this object based on the service i.e TwitterClient or FlickrClient
- * 
+ *
  */
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
@@ -55,19 +55,51 @@ public class TwitterClient extends OAuthBaseClient {
 
 	public void publishTweet(String tweetContext, JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
-		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("status", tweetContext);
 		client.post(apiUrl, params, "", handler);
 	}
 
-	public void publishReply(String tweetContext, JsonHttpResponseHandler handler) {
-		String apiUrl = getApiUrl("statuses/retweet/:id.json");
-		// Can specify query string params directly or through RequestParams.
+	public void publishReply(String tweetContext, String inReplyToStatusId, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/update.json");
 		RequestParams params = new RequestParams();
 		params.put("status", tweetContext);
+		params.put("in_reply_to_status_id", inReplyToStatusId);
 		client.post(apiUrl, params, "", handler);
 	}
+
+	public void publishRetweet(String id, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/retweet/" + id + ".json");
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post(apiUrl, params, "", handler);
+	}
+
+	public void unRetweet(String id, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/unretweet/" + id + ".json");
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post(apiUrl, params, "", handler);
+	}
+
+	public void favorite(String id, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("favorites/create.json");
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post(apiUrl, params, "", handler);
+	}
+
+	public void unfavorite(String id, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("favorites/destroy.json");
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post(apiUrl, params, "", handler);
+	}
+
+
+
+
+
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");

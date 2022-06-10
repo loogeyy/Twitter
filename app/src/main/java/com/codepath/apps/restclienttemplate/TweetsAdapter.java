@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
@@ -76,8 +85,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivImage;
         TextView tvTimestamp;
         TextView tvName;
-        Button btnRetweet;
-        Button btnLike;
+        ImageButton btnRetweet;
+        ImageButton btnLike;
         Button btnReply;
 
 
@@ -109,17 +118,67 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             Glide.with(context).load(tweet.imageUrl).centerCrop().
                     transform(new RoundedCorners(radius)).into(ivImage);
 
+            if (tweet.liked) {
+                btnLike.setImageResource(R.drawable.ic_vector_heart);
+            }
+            if (!tweet.liked) {
+                btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+            }
+            if (tweet.retweeted) {
+                btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+            }
+            if (!tweet.retweeted) {
+                btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+            }
+
+
+            // Reply
             btnReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ReplyActivity.class);
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
                     context.startActivity(intent);
                 }
             });
 
+
+            // Retweet/Unretweet Button
             btnRetweet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!tweet.retweeted) {
+                        client.publishRetweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                tweet.retweeted = true;
+                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                                Log.i("Retweet", "onSuccess to publish tweet");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e("Retweet", "onFailure to publish tweet", throwable);
+                            }
+                        });
+                    }
+                    else {
+                        client.unRetweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                tweet.retweeted = false;
+                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                                Log.i("Unretweet", "onSuccess to unretweet");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e("Unretweet", "onFailure to unretweet", throwable);
+                            }
+                        });
+
+
+                    }
 
                 }
             });
@@ -127,7 +186,35 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             btnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!tweet.liked) {
+                    client.favorite(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            tweet.liked = true;
+                            btnLike.setImageResource(R.drawable.ic_vector_heart);
+                            Log.i("Favorited", "onSuccess to publish tweet");
+                        }
 
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e("Favorited", "onFailure to publish tweet", throwable);
+                        }
+                    }); }
+                    else {
+                        client.unfavorite(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                tweet.liked = false;
+                                btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                                Log.i("Unfavorited", "onSuccess to publish tweet");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e("Unfavorited", "onFailure to publish tweet", throwable);
+                            }
+                        });
+                    }
                 }
             });
 

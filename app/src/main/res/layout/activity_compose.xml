@@ -14,7 +14,7 @@
         app:counterMaxLength="140">
 
         <EditText
-            android:id="@+id/retweetInput"
+            android:id="@+id/replyInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"

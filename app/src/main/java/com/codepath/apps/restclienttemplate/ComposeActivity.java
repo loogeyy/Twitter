@@ -35,7 +35,7 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
 
         client = TwitterApp.getRestClient(this);
-        etCompose = findViewById(R.id.retweetInput);
+        etCompose = findViewById(R.id.replyInput);
         btnTweet = findViewById(R.id.btnSubmitTweet);
         btnCancel = findViewById(R.id.btnCancel);
 
