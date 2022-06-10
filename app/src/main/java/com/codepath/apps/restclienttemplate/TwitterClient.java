@@ -5,7 +5,6 @@ import android.content.Context;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.oauth.OAuthBaseClient;
-import com.github.scribejava.apis.FlickrApi;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 
@@ -56,8 +55,19 @@ public class TwitterClient extends OAuthBaseClient {
 	public void publishTweet(String tweetContext, JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
 		RequestParams params = new RequestParams();
+		params.put("tweet_mode", "extended");
 		params.put("status", tweetContext);
+		params.put("since_id", 1);
 		client.post(apiUrl, params, "", handler);
+	}
+
+	public void getHomeTimelineEndless(String max_id, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("tweet_mode", "extended");
+		params.put("count", 25);
+		params.put("max_id", max_id);
+		client.get(apiUrl, params, handler);
 	}
 
 	public void publishReply(String tweetContext, String inReplyToStatusId, JsonHttpResponseHandler handler) {
@@ -95,6 +105,7 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("id", id);
 		client.post(apiUrl, params, "", handler);
 	}
+
 
 
 

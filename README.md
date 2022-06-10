@@ -26,13 +26,13 @@ The following **optional** features are implemented:
 * [x] User is using **"Twitter branded" colors and styles**
 * [x] User sees an **indeterminate progress indicator** when any background or network task is happening
 * [x] User can **select "reply" from home timeline to respond to a tweet**
-    * [ ] User that wrote the original tweet is **automatically "@" replied in compose**
+    * [x] User that wrote the original tweet is **automatically "@" replied in compose**
 * [ ] User can tap a tweet to **open a detailed tweet view**
-    * [ ] User can **take favorite (and unfavorite) or retweet** actions on a tweet
-* [ ] User can view more tweets as they scroll with infinite pagination
+    * [x] User can **take favorite (and unfavorite) or retweet** actions on a tweet
+* [x] User can view more tweets as they scroll with infinite pagination
 * [ ] Compose tweet functionality is built using modal overlay
-* [ ] User can **click a link within a tweet body** on tweet details view. The click will launch the web browser with relevant page opened.
-* [ ] Replace all icon drawables and other static image assets with [vector drawables](http://guides.codepath.org/android/Drawables#vector-drawables) where appropriate.
+* [x] User can **click a link within a tweet body** on tweet details view. The click will launch the web browser with relevant page opened.
+* [x] Replace all icon drawables and other static image assets with [vector drawables](http://guides.codepath.org/android/Drawables#vector-drawables) where appropriate.
 * [ ] User can view following / followers list through any profile they view.
 * [ ] Use the View Binding library to reduce view boilerplate.
 * [ ] On the Twitter timeline, apply scrolling effects such as [hiding/showing the toolbar](http://guides.codepath.org/android/Using-the-App-ToolBar#reacting-to-scroll) by implementing [CoordinatorLayout](http://guides.codepath.org/android/Handling-Scrolls-with-CoordinatorLayout#responding-to-scroll-events).
@@ -40,7 +40,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [x] List anything else that you can get done to improve the app functionality!
 * Moved the logout button to the top menu bar for easier accessibility
 ## Video Walkthrough
 
@@ -53,6 +53,9 @@ GIF created with [Kap](https://getkap.co/).
 ## Notes
 
 Describe any challenges encountered while building the app.
+-Getting like, retweet, and reply buttons to respond accordingly to
+API calls and work visually (i.e. changing colors when pressed by a user)
+-Implementing endless scrolling
 
 ## Open-source libraries used
 

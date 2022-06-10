@@ -105,7 +105,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody.setTypeface(font);
             tvScreenName.setTypeface(font);
             tvTimestamp.setTypeface(font);
-            tvName.setTypeface(font);
+            tvName.setTypeface(font, Typeface.BOLD);
         }
 
         public void bind(Tweet tweet) {

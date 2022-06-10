@@ -41,6 +41,7 @@ public class TimelineActivity extends AppCompatActivity {
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
     private SwipeRefreshLayout swipeContainer;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -135,13 +136,40 @@ public class TimelineActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         rvTweets.setLayoutManager(manager);
         rvTweets.setAdapter(adapter);
-        populateHomeTimeline();
+        scrollListener = new EndlessRecyclerViewScrollListener(manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                String lastTweetId = tweets.get(tweets.size() - 1).id;
+                client.getHomeTimelineEndless(lastTweetId, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Headers headers, JSON json) {
+                        miActionProgressItem.setVisible(true);
+                        JSONArray jsonArray = json.jsonArray;
+                        try {
+                            tweets.addAll(Tweet.fromJsonArray(jsonArray));
+                            adapter.notifyItemRangeInserted(tweets.size()-1, 25);
+                            miActionProgressItem.setVisible(false);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                        Log.e("Endless scroll", "" + response, throwable);
+                    }
+                });
+            }
+        };
+        rvTweets.addOnScrollListener(scrollListener);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvTweets.getContext(), manager.getOrientation());
         rvTweets.addItemDecoration(dividerItemDecoration);
 
 
+
 }
+
     public void fetchTimelineAsync(int page){
         // Send the network request to fetch updated data
         client.getHomeTimeline(new JsonHttpResponseHandler() {

@@ -98,6 +98,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="295dp"
-        android:background="@drawable/states_reply_button" />
+        android:background="@drawable/states_reply_button"
+        android:enabled="true" />
 
 </RelativeLayout>
